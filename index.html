@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>박세미 — 복리후생·조직문화 담당자</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper: #ffffff;
+  --panel: #F3F3F4;
+  --ink:   #0A0A0B;
+  --muted: #6E6E73;
+  --line:  rgba(0,0,0,0.12);
+  --nav:   #111113;
+  --r:     6px;
+  --sans:  'Pretendard Variable', Pretendard, 'Noto Sans KR', sans-serif;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 116px; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-weight: 400;
+  line-height: 1.8; -webkit-font-smoothing: antialiased;
+  padding-top: 60px;
+}
+
+em { font-style: normal; font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+strong { font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; color: var(--ink); }
+
+/* TOPBAR — fixed black bar, always visible */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 7vw; background: var(--nav);
+}
+.tb-logo { color: #fff; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.06em; text-decoration: none; }
+.tb-links { display: flex; gap: 1.8rem; align-items: center; }
+.tb-links a { color: rgba(255,255,255,0.68); font-size: 0.76rem; text-decoration: none; transition: color 0.2s; }
+.tb-links a:hover { color: #fff; }
+.tb-links .tb-cta { color: #111; background: #fff; padding: 0.5rem 1rem; border-radius: 100px; font-weight: 600; }
+.tb-links .tb-cta:hover { background: rgba(255,255,255,0.85); color: #111; }
+
+/* SUBNAV — floating pill, sticks below topbar on scroll */
+.subnav {
+  position: sticky; top: 60px; z-index: 150;
+  display: flex; gap: 0.2rem; padding: 0.35rem; margin: 2.6rem auto 0;
+  border: 1px solid var(--line); border-radius: 100px;
+  background: rgba(255,255,255,0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+  max-width: 92vw; width: fit-content; overflow-x: auto;
+}
+.subnav.docked { background: rgba(255,255,255,0.96); box-shadow: 0 8px 28px rgba(0,0,0,0.09); }
+.subnav a {
+  padding: 0.55rem 1.15rem; border-radius: 100px; font-size: 0.75rem;
+  color: #555; text-decoration: none; white-space: nowrap; transition: all 0.25s ease;
+}
+.subnav a.active, .subnav a:hover { background: var(--ink); color: #fff; }
+
+/* HERO */
+.hero { --p: 0; padding: 4.2rem 7vw 0; text-align: center; }
+.h-eye {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 1.6rem; opacity: calc(1 - var(--p) * 1.4);
+}
+.h-title {
+  font-size: clamp(2.3rem, 6.2vw, 4.6rem); font-weight: 800; line-height: 1.14; letter-spacing: -0.03em;
+  word-break: keep-all; opacity: calc(1 - var(--p) * 1.4);
+  transform: translateY(calc(var(--p) * -14px));
+}
+
+.hero-media {
+  position: relative; overflow: hidden; background: var(--nav);
+  margin: 3.2rem calc(7vw - var(--p) * 7vw) 0;
+  border-radius: calc(28px - var(--p) * 28px);
+  height: calc(300px + var(--p) * 300px);
+  transition: margin 0.05s linear, border-radius 0.05s linear;
+}
+.hero-map-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+  z-index: 10; transform: scale(calc(1.04 + var(--p) * 0.1)); }
+.hero-map-img[data-missing] { display: none; }
+.hero-fallback {
+  position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center;
+  background: repeating-linear-gradient(135deg, #17171a 0 14px, #1f1f23 14px 28px);
+  color: rgba(255,255,255,0.4); font-size: 0.68rem; letter-spacing: 0.1em; text-align: center; padding: 1rem;
+}
+.hero-map-img:not([data-missing]) + .hero-fallback { display: none; }
+
+/* Journey dots — the trodden path between milestones */
+.hero-dot {
+  position: absolute; z-index: 20; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%; background: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,0.6);
+}
+@keyframes dotAppear01 { 0%,16.75% { opacity:0; } 17.75%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear02 { 0%,18.5% { opacity:0; } 19.5%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear03 { 0%,20.25% { opacity:0; } 21.25%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear04 { 0%,22.0% { opacity:0; } 23.0%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear05 { 0%,23.75% { opacity:0; } 24.75%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear06 { 0%,25.5% { opacity:0; } 26.5%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear07 { 0%,27.25% { opacity:0; } 28.25%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear08 { 0%,37.33% { opacity:0; } 38.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear09 { 0%,39.67% { opacity:0; } 40.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear10 { 0%,42.0% { opacity:0; } 43.0%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear11 { 0%,44.33% { opacity:0; } 45.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear12 { 0%,46.67% { opacity:0; } 47.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear13 { 0%,57.33% { opacity:0; } 58.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear14 { 0%,59.67% { opacity:0; } 60.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear15 { 0%,62.0% { opacity:0; } 63.0%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear16 { 0%,64.33% { opacity:0; } 65.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear17 { 0%,66.67% { opacity:0; } 67.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear18 { 0%,77.33% { opacity:0; } 78.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear19 { 0%,79.67% { opacity:0; } 80.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear20 { 0%,82.0% { opacity:0; } 83.0%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear21 { 0%,84.33% { opacity:0; } 85.33%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+@keyframes dotAppear22 { 0%,86.67% { opacity:0; } 87.67%,97% { opacity:.95; } 99%,100% { opacity:0; } }
+
+/* Journey pins — milestone labels: white pill, same style as the nav Contact button */
+.hero-pin { position: absolute; z-index: 30; transform: translate(-50%, -100%); text-align: center; }
+.hero-pin-label {
+  display: inline-block; padding: 0.42rem 0.95rem; border-radius: 100px;
+  background: #fff; color: #111; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.02em; white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.hero-pin-logo { display: inline-flex; align-items: center; justify-content: center; }
+.hero-pin-logo img { height: 30px; width: auto; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+.hero-pin-fallback-text {
+  display: none; padding: 0.42rem 0.95rem; border-radius: 100px;
+  background: #fff; color: #111; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+/* Walking character */
+.hero-char {
+  position: absolute; z-index: 40; width: 42px; height: auto;
+  transform: translate(-50%, -78%);
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.5));
+  animation: heroWalk 16s linear infinite;
+  image-rendering: pixelated;
+}
+@keyframes heroWalk {
+  0%   { left: 10.5%; top: 20%; opacity: 1; }
+  16%  { left: 10.5%; top: 20%; opacity: 1; }
+  30%  { left: 51%;   top: 65%; opacity: 1; }
+  36%  { left: 51%;   top: 65%; opacity: 1; }
+  50%  { left: 51%;   top: 16%; opacity: 1; }
+  56%  { left: 51%;   top: 16%; opacity: 1; }
+  70%  { left: 83%;   top: 20%; opacity: 1; }
+  76%  { left: 83%;   top: 20%; opacity: 1; }
+  90%  { left: 83%;   top: 74%; opacity: 1; }
+  96%  { left: 83%;   top: 74%; opacity: 1; }
+  98%  { left: 83%;   top: 74%; opacity: 0; }
+  99%  { left: 10.5%; top: 20%; opacity: 0; }
+  100% { left: 10.5%; top: 20%; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-char { animation: none; left: 10.5%; top: 20%; }
+}
+
+.h-sub {
+  margin: 3.6rem auto 0; font-size: 1rem; color: #444; line-height: 1.85; max-width: 56ch; word-break: keep-all;
+}
+.h-stats {
+  display: flex; justify-content: center; gap: 3.2rem; margin: 3.4rem auto 0; padding: 2rem 0;
+  border-top: 1px solid var(--line); max-width: 780px; flex-wrap: wrap;
+}
+.hs-num { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.hs-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.5; }
+
+/* SHARED */
+.s-eye { font-size: 0.67rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+.s-title { font-size: clamp(1.6rem, 2.8vw, 2.3rem); font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; word-break: keep-all; }
+
+/* ABOUT */
+.about { padding: 8rem 7vw 7rem; border-top: 1px solid var(--line); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 3.5rem; align-items: start; }
+.about-belief { font-size: 1.02rem; font-weight: 700; line-height: 1.68; margin-bottom: 2rem; }
+.about-facts { list-style: none; }
+.about-facts li { display: flex; gap: 0.85rem; align-items: baseline; padding: 0.78rem 0; border-bottom: 1px solid var(--line); font-size: 0.87rem; color: #333; line-height: 1.7; }
+.about-facts li::before { content: '—'; flex-shrink: 0; }
+.pillars { display: flex; flex-direction: column; }
+.pillar { padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
+.pillar:first-child { border-top: 1px solid var(--line); }
+.p-name { font-size: 0.73rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 0.35rem; }
+.p-desc { font-size: 0.86rem; color: #555; line-height: 1.72; }
+
+/* CASES — Nexon media-card grid, hover zoom / click expand */
+.cases { padding: 7rem 7vw; border-top: 1px solid var(--line); }
+.cases-head { margin-bottom: 3.5rem; }
+
+.elancia-intro {
+  display: flex; align-items: center; gap: 2.6rem;
+  margin: 0 0 3.5rem; padding: 1.8rem 2.4rem;
+  background: var(--panel); border-radius: 12px; border-left: 3px solid var(--ink);
+}
+.ei-main { flex: 1.7; min-width: 0; }
+.ei-eye { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+.ei-text { font-size: 0.9rem; color: #333; line-height: 1.85; word-break: keep-all; }
+.ei-text strong { color: var(--ink); }
+.ei-note { flex: 1; min-width: 0; font-size: 0.78rem; color: var(--muted); line-height: 1.7; padding-left: 2.2rem; border-left: 1px solid var(--line); word-break: keep-all; }
+
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+
+.ncard {
+  position: relative; border-radius: var(--r); overflow: hidden; cursor: pointer;
+  background: var(--nav); outline: none;
+}
+
+.ncard-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+
+/* FLIP IN PLACE — closed and open states share the exact same box
+   (aspect-ratio 4/3, same grid cell, same width). Nothing about the
+   card's position or size ever changes; only the two faces cross-fade.
+   The back face scrolls internally if its content runs taller. */
+.ncard-face { position: absolute; inset: 0; transition: opacity 0.3s ease; }
+.ncard-face-front { opacity: 1; pointer-events: auto; }
+.ncard.is-open .ncard-face-front { opacity: 0; pointer-events: none; }
+.ncard-face-back {
+  opacity: 0; pointer-events: none;
+  background: var(--paper); overflow-y: auto; overflow-x: hidden;
+  padding: 1.7rem 1.6rem 1.8rem;
+  scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.25) transparent;
+}
+.ncard.is-open .ncard-face-back { opacity: 1; pointer-events: auto; }
+.ncard-face-back::-webkit-scrollbar { width: 6px; }
+.ncard-face-back::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.22); border-radius: 3px; }
+.cd-head { margin-bottom: 1rem; padding-bottom: .9rem; border-bottom: 1px solid var(--line); padding-right: 1.8rem; }
+.cd-tag { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.cd-title { font-size: 1.05rem; font-weight: 800; line-height: 1.32; margin-top: 0.4rem; color: var(--ink); word-break: keep-all; }
+
+.ncard-fallback {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(135deg, #17171a 0 14px, #202024 14px 28px);
+  display: flex; align-items: center; justify-content: center;
+}
+/* RETRO VISUALS — one per card, CSS-only (no photos, no copyright risk).
+   Each swaps the diagonal-stripe fallback for a small themed composition,
+   layered under a CRT scanline for a consistent retro-game feel. */
+.ncard-fallback.rv { background: linear-gradient(160deg, #18181b, #0b0b0d); }
+.ncard-fallback.rv::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px);
+}
+.rv-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform: scale(1.3); }
+
+/* 01 — spiral, lighting up from the center outward (조작감 → 확장되는 감각) */
+.rv-01 .rv-spiral { position: relative; width: 150px; height: 150px; }
+.rv-01 .rv-spiral span { position: absolute; border-radius: 50%; background: #6EE7FF; animation: rvSpiralOn 2.6s ease-in-out infinite; }
+.rv-01 .rv-spiral span:nth-child(1) { left: 78.0px; top: 72.0px; width: 6.0px; height: 6.0px; animation-delay: 0s; }
+.rv-01 .rv-spiral span:nth-child(2) { left: 60.5px; top: 80.9px; width: 7.7px; height: 7.7px; animation-delay: .18s; }
+.rv-01 .rv-spiral span:nth-child(3) { left: 72.3px; top: 47.4px; width: 9.4px; height: 9.4px; animation-delay: .36s; }
+.rv-01 .rv-spiral span:nth-child(4) { left: 88.6px; top: 94.4px; width: 11.1px; height: 11.1px; animation-delay: .54s; }
+.rv-01 .rv-spiral span:nth-child(5) { left: 29.2px; top: 61.7px; width: 12.8px; height: 12.8px; animation-delay: .72s; }
+.rv-01 .rv-spiral span:nth-child(6) { left: 108.7px; top: 41.7px; width: 14.5px; height: 14.5px; animation-delay: .9s; }
+.rv-01 .rv-spiral span:nth-child(7) { left: 52.1px; top: 122.0px; width: 16.2px; height: 16.2px; animation-delay: 1.08s; }
+.rv-01 .rv-spiral span:nth-child(8) { left: 35.8px; top: 8.0px; width: 17.9px; height: 17.9px; animation-delay: 1.26s; }
+@keyframes rvSpiralOn {
+  0%, 100% { opacity: .2; transform: scale(.65); box-shadow: none; }
+  15% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px rgba(110,231,255,.75); }
+  45% { opacity: .5; transform: scale(.85); box-shadow: none; }
+}
+
+/* 02 — expanding map rings (맵·세계관 확장) */
+.rv-02 .rv-rings span {
+  position: absolute; border: 1.5px solid #B389FF; border-radius: 7px; top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0.7); opacity: 0;
+  animation: rvRingPulse 2.8s ease-out infinite;
+}
+.rv-02 .rv-rings span:nth-child(1) { width: 36px;  height: 36px;  animation-delay: 0s; }
+.rv-02 .rv-rings span:nth-child(2) { width: 76px;  height: 76px;  animation-delay: .6s; }
+.rv-02 .rv-rings span:nth-child(3) { width: 118px; height: 118px; animation-delay: 1.2s; }
+.rv-02 .rv-rings span:nth-child(4) { width: 162px; height: 162px; animation-delay: 1.8s; }
+@keyframes rvRingPulse {
+  0% { transform: translate(-50%,-50%) scale(0.7); opacity: 0; }
+  20% { opacity: .8; }
+  100% { transform: translate(-50%,-50%) scale(1.08); opacity: 0; }
+}
+
+/* 03 — plaza gathering, different jobs meeting at one point (직업 다양성 · 광장) */
+.rv-03 .rv-plaza { position: relative; width: 110px; height: 110px; }
+.rv-03 .rv-plaza span { position: absolute; width: 10px; height: 10px; border-radius: 50%; }
+.rv-03 .rv-plaza span.center { left: 50px; top: 50px; width: 12px; height: 12px; background: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.6); animation: rvCenterPulse 2.4s ease-in-out infinite; }
+.rv-03 .rv-plaza span:not(.center) { animation: rvDotPulse 2.4s ease-in-out infinite; }
+.rv-03 .rv-plaza span:nth-child(1) { left: 4px;  top: 20px; background: #6EE7FF; animation-delay: 0s; }
+.rv-03 .rv-plaza span:nth-child(2) { left: 90px; top: 14px; background: #FFD166; animation-delay: .35s; }
+.rv-03 .rv-plaza span:nth-child(3) { left: 96px; top: 84px; background: #FF6B6B; animation-delay: .7s; }
+.rv-03 .rv-plaza span:nth-child(4) { left: 10px; top: 90px; background: #7CFFB2; animation-delay: 1.05s; }
+.rv-03 .rv-plaza span:nth-child(5) { left: 46px; top: 2px;  background: #B389FF; animation-delay: 1.4s; }
+@keyframes rvDotPulse { 0%, 100% { transform: scale(1); opacity: .7; } 40% { transform: scale(1.4); opacity: 1; } }
+@keyframes rvCenterPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+
+/* 04 — bars charging up like a battery / exp gauge, not bouncing (편안한 BGM·효과음) */
+.rv-04 .rv-eq { display: flex; align-items: flex-end; gap: 7px; height: 74px; }
+.rv-04 .rv-eq span { width: 9px; background: #FFD166; border-radius: 2px 2px 0 0; animation: rvBarFill 2.6s ease-in-out infinite; transform-origin: bottom; }
+.rv-04 .rv-eq span:nth-child(1) { height: 32%; animation-delay: 0s; }
+.rv-04 .rv-eq span:nth-child(2) { height: 68%; animation-delay: .12s; }
+.rv-04 .rv-eq span:nth-child(3) { height: 100%; animation-delay: .24s; }
+.rv-04 .rv-eq span:nth-child(4) { height: 52%; animation-delay: .36s; }
+.rv-04 .rv-eq span:nth-child(5) { height: 78%; animation-delay: .48s; }
+@keyframes rvBarFill {
+  0% { transform: scaleY(.06); opacity: .5; }
+  55% { transform: scaleY(1); opacity: 1; }
+  80% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(.06); opacity: .5; }
+}
+
+/* 05 — ability / proficiency gauge (무기별 숙련도 = 어빌리티) */
+.rv-05 .rv-gauge { display: flex; gap: 5px; align-items: flex-end; }
+.rv-05 .rv-gauge span { width: 13px; height: 30px; border-radius: 2px; background: rgba(255,255,255,0.12); transform-origin: bottom; }
+.rv-05 .rv-gauge span.filled {
+  background: #7CFFB2; box-shadow: 0 0 8px rgba(124,255,178,0.5);
+  animation: rvGaugeFill 2.6s ease-in-out infinite; transform: scaleY(1);
+}
+.rv-05 .rv-gauge span.filled:nth-child(1) { animation-delay: 0s; }
+.rv-05 .rv-gauge span.filled:nth-child(2) { animation-delay: .12s; }
+.rv-05 .rv-gauge span.filled:nth-child(3) { animation-delay: .24s; }
+.rv-05 .rv-gauge span.filled:nth-child(4) { animation-delay: .36s; }
+.rv-05 .rv-gauge span.filled:nth-child(5) { animation-delay: .48s; }
+@keyframes rvGaugeFill { 0%, 100% { transform: scaleY(.5); opacity: .65; } 50% { transform: scaleY(1); opacity: 1; } }
+
+/* 06 — job shift, taking turns (사냥꾼→요리사→미용사) */
+.rv-06 .rv-shift { display: flex; align-items: center; gap: 20px; }
+.rv-06 .rv-shift .sq, .rv-06 .rv-shift .cir, .rv-06 .rv-shift .tri { opacity: .3; animation: rvShift 3.6s ease-in-out infinite; }
+.rv-06 .rv-shift .sq  { width: 22px; height: 22px; background: #FF6B6B; }
+.rv-06 .rv-shift .cir { width: 22px; height: 22px; border-radius: 50%; background: #FF6B6B; animation-delay: 1.2s; }
+.rv-06 .rv-shift .tri { width: 0; height: 0; border-left: 11px solid transparent; border-right: 11px solid transparent; border-bottom: 20px solid #FF6B6B; animation-delay: 2.4s; }
+.rv-06 .rv-shift .sq { animation-delay: 0s; }
+@keyframes rvShift { 0%, 78%, 100% { opacity: .3; transform: scale(1); } 15%, 35% { opacity: 1; transform: scale(1.18); } }
+
+.ncard-memory { font-size: 0.78rem; color: rgba(255,255,255,0.72); line-height: 1.6; margin-top: 0.6rem; word-break: keep-all; }
+
+.ncard-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 100%); pointer-events: none; }
+.ncard-head { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.7rem 1.8rem; color: #fff; z-index: 2; }
+.ncard-tag { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.72; }
+.ncard-title { font-size: 1.32rem; font-weight: 800; line-height: 1.32; margin-top: 0.55rem; word-break: keep-all; }
+.ncard-plus {
+  position: absolute; top: 1.4rem; right: 1.4rem; z-index: 2; width: 32px; height: 32px; border-radius: 50%;
+  border: 1.4px solid rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.05rem; transition: transform 0.4s ease, background 0.2s ease;
+}
+.ncard:hover .ncard-plus { background: rgba(255,255,255,0.12); }
+.ncard.is-open .ncard-plus {
+  color: var(--ink); border-color: rgba(0,0,0,0.18); background: var(--paper);
+}
+.ncard.is-open:hover .ncard-plus { background: var(--panel); }
+
+.cd-open { font-size: 0.88rem; font-weight: 500; color: #333; line-height: 1.66; margin-bottom: 1.1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); word-break: keep-all; }
+.cd-acts { list-style: none; }
+.cd-acts li { position: relative; padding: 0.65rem 0 0.65rem 1.4rem; border-bottom: 1px solid var(--line); font-size: 0.82rem; color: #333; line-height: 1.72; word-break: keep-all; }
+.cd-acts li:last-child { border-bottom: none; }
+.cd-acts li::before { content: '→'; position: absolute; left: 0; top: 0.65rem; font-size: 0.76rem; }
+.cd-result { background: var(--panel); border-left: 3px solid var(--ink); border-radius: 0 8px 8px 0; padding: 1.1rem 1.25rem; margin-top: 1.3rem; }
+.cd-nums { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.cn-num { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.cn-lbl { font-size: 0.64rem; color: #555; margin-top: 0.25rem; line-height: 1.4; }
+.cd-rtext { font-size: 0.82rem; color: #333; line-height: 1.75; word-break: keep-all; }
+
+/* Inline media strip inside card body (photos/video that support the bullets) */
+.cd-imgs { display: flex; gap: 8px; margin: 1.2rem 0 0.4rem; }
+.cd-imgs.single { display: block; }
+.cd-img-box { flex: 1; min-width: 0; border-radius: 8px; overflow: hidden; background: var(--panel); }
+.cd-imgs.single .cd-img-box { width: 100%; }
+.cd-img-box img, .cd-img-box video { width: 100%; height: 165px; object-fit: cover; display: block; }
+.cd-imgs.single .cd-img-box img { height: 210px; }
+.cd-cap { font-size: 0.68rem; color: var(--muted); margin: 0.55rem 0 1.4rem; line-height: 1.5; }
+
+/* CASE 01 chart visual (no photo asset) */
+.cv-chart { flex: 1; display: flex; align-items: flex-end; gap: 8px; padding: 0 1.8rem; max-height: 96px; }
+.cv-chart .g-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.cv-chart .g-val { font-size: 0.62rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+.cv-chart .g-bar { width: 100%; max-width: 42px; border-radius: 3px 3px 0 0; background: rgba(255,255,255,0.28); }
+.cv-chart .g-col.is-peak .g-bar { background: #fff; }
+.cv-chart .g-col.is-peak .g-val { color: #fff; font-weight: 700; }
+
+/* CASE 04 before/after typographic visual (no photo asset) */
+.call-vis { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.6rem; padding: 0 1.8rem; color: #fff; }
+.call-old { font-size: 0.82rem; color: rgba(255,255,255,0.5); text-decoration: line-through; line-height: 1.4; }
+.call-arrow { font-size: 0.85rem; opacity: 0.6; }
+.call-new { font-size: 1.5rem; font-weight: 800; line-height: 1.2; }
+
+/* VOICES */
+.voices { background: var(--panel); padding: 4.5rem 7vw; border-top: 1px solid var(--line); }
+.voices-head { display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.2rem; }
+.voices-title { font-size: clamp(1.1rem, 1.9vw, 1.4rem); font-weight: 700; letter-spacing: -0.02em; word-break: keep-all; }
+.voices-note { font-size: 0.72rem; color: var(--muted); }
+.voice-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+.voice-card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 1.5rem 1.4rem 1.3rem; position: relative; }
+.voice-card::before { content: '\201C'; position: absolute; top: 0.4rem; left: 1.1rem; font-size: 2rem; line-height: 1; opacity: 0.2; font-family: Georgia, serif; }
+.voice-q { font-size: 0.84rem; color: #333; line-height: 1.68; word-break: keep-all; }
+.voice-src { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--line); font-size: 0.66rem; letter-spacing: 0.03em; font-weight: 700; }
+
+/* RETRO */
+.retro { background: var(--nav); padding: 7rem 7vw; }
+.retro .s-eye { color: #8a8a90; }
+.retro .s-title { color: #fff; }
+.retro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+.retro-p { font-size: 0.94rem; color: #a3a3a8; line-height: 1.95; }
+.retro-p strong { color: #fff; text-decoration-color: rgba(255,255,255,0.4); }
+.retro-pull { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.14); }
+.rp-text { font-size: clamp(1.1rem, 2.1vw, 1.5rem); font-weight: 700; line-height: 1.42; color: #fff; word-break: keep-all; }
+.rp-attr { font-size: 0.74rem; color: #8a8a90; margin-top: 1.2rem; letter-spacing: 0.06em; }
+
+/* CLOSING */
+.closing { padding: 7rem 7vw; text-align: center; border-top: 1px solid var(--line); }
+.closing .s-title { max-width: 40ch; margin: 1.2rem auto 0; }
+.closing-body { margin: 2.2rem auto 0; max-width: 72ch; }
+.closing-p { font-size: 0.95rem; color: #333; line-height: 1.88; word-break: keep-all; margin-bottom: 1rem; }
+.closing-note { font-size: 0.76rem; color: var(--muted); line-height: 1.7; word-break: keep-all; padding-top: 1rem; border-top: 1px solid var(--line); margin-bottom: 2.6rem; }
+.closing-sub { margin: 0 auto; max-width: 68ch; font-size: 0.9rem; color: var(--muted); line-height: 1.85; }
+.closing-btns { margin-top: 2.4rem; }
+.btn-primary { display: inline-block; padding: 0.9rem 2.2rem; font-size: 0.82rem; letter-spacing: 0.04em; text-decoration: none;
+  border-radius: 100px; font-weight: 600; background: var(--ink); color: #fff; transition: opacity 0.2s; }
+.btn-primary:hover { opacity: 0.78; }
+
+footer { padding: 2rem 7vw; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--muted); }
+
+/* SCROLL REVEAL */
+[data-rv] { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+[data-rv].visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .voice-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 840px) {
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .retro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .voice-list { grid-template-columns: 1fr; gap: 0.8rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .h-stats { gap: 2rem; }
+  .elancia-intro { flex-direction: column; align-items: stretch; gap: 1.2rem; }
+  .ei-note { padding-left: 0; padding-top: 1rem; border-left: none; border-top: 1px solid var(--line); }
+}
+@media (max-width: 540px) {
+  .topbar, .about, .cases, .voices, .retro, .closing { padding-left: 5vw; padding-right: 5vw; }
+  .hero { padding-left: 5vw; padding-right: 5vw; }
+  footer { padding: 2rem 5vw; flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="#top" class="tb-logo">박세미</a>
+  <div class="tb-links">
+    <a href="mailto:bobsemi@me.com" class="tb-cta">Contact</a>
+  </div>
+</header>
+
+<nav class="subnav" id="subnav">
+  <a href="#about" class="active">About</a>
+  <a href="#cases">Cases</a>
+  <a href="#voices">Voices</a>
+  <a href="#retro">Retrospective</a>
+  <a href="#closing">Closing</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <p class="h-eye">복리후생·조직문화 담당자 Portfolio · 박세미</p>
+  <h1 class="h-title">일을 게임처럼,<br>게임을 <em>일처럼</em> 만듭니다.</h1>
+
+  <div class="hero-media" id="heroMedia">
+    <img src="images/hero-map.png" alt="박세미의 커리어 여정 맵" class="hero-map-img" onerror="this.setAttribute('data-missing','')">
+    <div class="hero-fallback">HERO MAP 자리 — images/hero-map.png 로 교체해줘</div>
+    <span class="hero-dot" style="left:15.56%; top:25.62%; animation: dotAppear01 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:20.62%; top:31.25%; animation: dotAppear02 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:25.69%; top:36.88%; animation: dotAppear03 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:30.75%; top:42.5%; animation: dotAppear04 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:35.81%; top:48.12%; animation: dotAppear05 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:40.88%; top:53.75%; animation: dotAppear06 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:45.94%; top:59.38%; animation: dotAppear07 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:51.0%; top:56.83%; animation: dotAppear08 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:51.0%; top:48.67%; animation: dotAppear09 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:51.0%; top:40.5%; animation: dotAppear10 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:51.0%; top:32.33%; animation: dotAppear11 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:51.0%; top:24.17%; animation: dotAppear12 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:56.33%; top:16.67%; animation: dotAppear13 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:61.67%; top:17.33%; animation: dotAppear14 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:67.0%; top:18.0%; animation: dotAppear15 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:72.33%; top:18.67%; animation: dotAppear16 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:77.67%; top:19.33%; animation: dotAppear17 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:83.0%; top:29.0%; animation: dotAppear18 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:83.0%; top:38.0%; animation: dotAppear19 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:83.0%; top:47.0%; animation: dotAppear20 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:83.0%; top:56.0%; animation: dotAppear21 16s linear infinite;"></span>
+    <span class="hero-dot" style="left:83.0%; top:65.0%; animation: dotAppear22 16s linear infinite;"></span>
+    <div class="hero-pin" style="left:10.5%; top:20.0%;"><span class="hero-pin-label">TEXTILE</span></div>
+    <div class="hero-pin" style="left:51.0%; top:65.0%;"><span class="hero-pin-label">BARISTA</span></div>
+    <div class="hero-pin" style="left:51.0%; top:16.0%;"><span class="hero-pin-label">EDUCATION</span></div>
+    <div class="hero-pin" style="left:83.0%; top:20.0%;"><span class="hero-pin-label">CULTURE</span></div>
+    <div class="hero-pin" style="left:83.0%; top:74.0%;"><span class="hero-pin-logo"><img src="images/nexon.png" alt="NEXON" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"><span class="hero-pin-fallback-text">NEXON</span></span></div>
+    <img src="images/hero-char.png" alt="이직 여정을 걷는 캐릭터" class="hero-char">
+  </div>
+
+  <p class="h-sub">저는 제도와 이벤트를 따로 보지 않습니다. 몰입은 우연히 생기지 않고, 그 뒤에는 언제나 세심하게 설계된 구조가 있다고 믿습니다. 진단에서 출발해, 구성원이 자연스럽게 즐기고 몰입하는 경험을 직접 만들어 보여주는 사람입니다.</p>
+  <div class="h-stats">
+    <div><div class="hs-num">4년</div><div class="hs-lbl">호칭 변화관리 정착<br>전 현장 '님' 전환</div></div>
+    <div><div class="hs-num">약 200세트</div><div class="hs-lbl">연간 웰컴 기프트세트<br>자체 기획·구성</div></div>
+    <div><div class="hs-num">0→1</div><div class="hs-lbl">생성형 AI 활용<br>온보딩 웹앱·가이드북 개발</div></div>
+    <div><div class="hs-num">2.1배</div><div class="hs-lbl">연간 프로그램 규모 확대<br>99명 → 209명</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <p class="s-eye">About</p>
+  <h2 class="s-title">문화는 선포하는 것이 아니라,<br>구조로 스며들게 하는 것입니다.</h2>
+  <div class="about-grid" data-rv>
+    <div>
+      <p class="about-belief">"세미님과 함께여서 만족스럽다." 커리어 첫날부터 지금까지 지켜온 단 하나의 기준입니다.</p>
+      <ul class="about-facts">
+        <li>테라로사 8년차 : 바리스타로 시작해 2021년부터 조직문화·교육 기능을 밑그림부터 구축·운영한 사내 유일 현장 출신 기획자</li>
+        <li>온보딩 아키텍처 재설계로 랜딩 기간 최대 1년 → 3개월, 연간 교육 인원 99명 → 209명(2.1배) · 3개월 내 소프트랜딩 97%</li>
+        <li>AI를 무기로 온보딩 웹앱 직접 개발 · Premiere Pro 독학으로 직무 교육 영상 12편 제작 · 298p 브랜드 매뉴얼북 단독 집필</li>
+        <li>교육생 600명 이상 직접 훈련·평가 배출 · 美 커피 평가 기관 ACE 국제 센서리 교육 조교·통역 2회 참여</li>
+        <li>호칭 '님' 단일화 변화관리 4년 : 선후배 체계를 전 현장 '님'으로 전환, 신입이 먼저 질문하는 조직으로 · 사내 소식지 웹 구축 후 팀 이관</li>
+        <li>신규입사자 웰컴 기프트세트(업무용 앞치마·자사 상품·브랜드 에코백) 자체 기획·구성 · 연 약 200세트 운영</li>
+        <li>단국대학교(죽전) 섬유공학 전공 · 첫 커리어는 해외 발주·품질검수·통관을 전 과정 영어로 수행한 의류 부자재 실무</li>
+      </ul>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="p-name">Diagnose First</div>
+        <div class="p-desc">현상이 아닌 본질을 파고듭니다. 모든 가정에 물음표를 던져, 원래 그래왔다는 구조부터 다시 봅니다.</div>
+      </div>
+      <div class="pillar">
+        <div class="p-name">Change Management</div>
+        <div class="p-desc">제도는 공지로 시작되지만, 문화는 누군가 먼저 그렇게 사는 걸 보여줄 때 시작됩니다. 그 첫 번째 사람이 되는 쪽을 택합니다.</div>
+      </div>
+      <div class="pillar">
+        <div class="p-name">Scale by Enabling</div>
+        <div class="p-desc">나 혼자 잘하는 것이 아니라, 제가 없어도 동료들이 알아서 만들어내는 운동장을 설계합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="cases">
+  <div class="cases-head">
+    <p class="s-eye">Selected Cases</p>
+    <h2 class="s-title">진단하고, 직접 만들고,<br>수치로 증명했습니다.</h2>
+  </div>
+
+  <div class="elancia-intro" data-rv>
+    <div class="ei-main">
+      <p class="ei-eye">Before Cases</p>
+      <p class="ei-text">어릴 적 저는 <strong>일랜시아</strong>라는 게임에 푹 빠져 살았습니다. 뚜렷한 목표가 있어서가 아니라, 제가 움직인 대로 자연스럽게 반응하는 세계, 계속 머물고 싶어지는 분위기, 무엇이든 자유롭게 선택하고 성장할 수 있다는 감각이 좋았습니다. 그때 좋아했던 이유들이 지금 제가 조직문화를 만드는 방식과 같다는 걸, 나중에야 알았습니다.</p>
+    </div>
+    <p class="ei-note">아래 카드의 겉면은 그 시절 제가 이 게임에 빠졌던 이유이고, 클릭하면 지금 제가 만든 프로젝트로 이어집니다.</p>
+  </div>
+
+  <div class="card-grid" id="cardGrid">
+
+    <!-- CASE 01 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-01">
+            <div class="rv-stage"><div class="rv-spiral"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 01</span>
+            <h3 class="ncard-title">내가 움직인 대로,<br>자연스럽게 반응하는 것</h3>
+            <p class="ncard-memory">캐릭터가 날아다니듯 부드럽게 움직이는 게 좋았어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">Culture Program &amp; Communication</span>
+            <h4 class="cd-title">선배님이 세미님이 되기까지</h4>
+          </div>
+          <p class="cd-open">인사팀은 공지 채널로 "이제 '님'으로 부르자"고 알렸습니다. 그리고 아무 일도 일어나지 않았어요.</p>
+        <ul class="cd-acts">
+          <li><strong>왜 아무도 안 따랐나</strong> — <strong>낮춰 불리게 되는 쪽이 먼저 괜찮다는 걸 보여주지 않으면</strong> 누구도 시작할 수 없는 구조였습니다.</li>
+          <li><strong>제가 먼저 '세미님'이 됐습니다</strong> — 가장 높여 불릴 자리의 사람이 먼저 내려오면 나머지가 따라올 수 있다고 봤어요. 교육 자리에서 <strong>"세미님이라고 불러 주세요"</strong>라고 소개했습니다.</li>
+          <li><strong>새로 들어오는 물부터 바꿨습니다</strong> — 매달 합류하는 신규 입사자가 첫날부터 '님'을 쓰게 했어요. 온보딩이 그 입구였고, 저는 그 입구를 쥐고 있었습니다.</li>
+          <li><strong>리더들 사이에는 '분위기'를 만들었습니다</strong> — <strong>규칙으로 강제하는 대신, 이미 그렇게 되어 가는 것처럼 보이게</strong> 만든 것입니다.</li>
+        </ul>
+        <div class="cd-result">
+          <p class="cd-rtext">신입들이 훨씬 쉽게 동료에게 다가가 질문하고 도움을 구합니다. <strong>제도는 공지로 시작되지만, 문화는 누군가 먼저 그렇게 사는 걸 보여줄 때 시작됩니다.</strong></p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+    <!-- CASE 02 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-02">
+            <div class="rv-stage"><div class="rv-rings"><span></span><span></span><span></span><span></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 02</span>
+            <h3 class="ncard-title">이 세계 안에만<br>머물지 않는 것</h3>
+            <p class="ncard-memory">레벨을 올릴 때마다 새로운 맵이 열리고, 세계관이 넓어지는 게 좋았어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">Event &amp; Guest Program</span>
+            <h4 class="cd-title">세계 최고의 기준을, 우리 현장으로</h4>
+          </div>
+          <p class="cd-open">성장하려면 우리끼리의 기준만으로는 부족했습니다. 외부의 최고 기준을 현장 안으로 들여와야 했어요.</p>
+        <ul class="cd-acts">
+          <li><strong>국제 교육 프로그램 유치·운영</strong> — 美 커피 평가 기관 ACE가 아시아 교육생을 대상으로 진행한 센서리 교육에 조교 겸 통역으로 2회 참여했습니다. 타사 신청자도 함께 듣는 외부 교육이었습니다.</li>
+          <li><strong>해외 전문가 초청 세미나 기획</strong> — 바리스타 챔피언십 코치를 초청한 임직원 교육에서 조교로 참여, 외부 전문가의 노하우가 현장에 그대로 전달되도록 통역·진행을 맡았습니다.</li>
+          <li><strong>진행 공백 없는 통역 운영</strong> — 통역이 필요한 국제 행사 특성상 세션 흐름과 통역 타이밍까지 직접 조율해, 언어 장벽 없이 매끄럽게 진행되도록 했습니다.</li>
+        </ul>
+        <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">2회</div><div class="cn-lbl">ACE 국제 센서리 교육<br>조교·통역 참여</div></div>
+            <div><div class="cn-num">외부초청</div><div class="cn-lbl">챔피언 코치 교육<br>진행 조교</div></div>
+            <div><div class="cn-num">2개 언어</div><div class="cn-lbl">통역 기반<br>행사 진행</div></div>
+          </div>
+          <p class="cd-rtext">외부 전문가가 다녀간 자리엔 새로운 기준이 남습니다. <strong>저는 그 기준이 현장 언어로 정확히 옮겨지도록 잇는 역할을 했습니다.</strong></p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+    <!-- CASE 03 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-03">
+            <div class="rv-stage"><div class="rv-plaza"><span></span><span></span><span></span><span></span><span></span><span class="center"></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 03</span>
+            <h3 class="ncard-title">다른 직업이어도,<br>같은 세계였다는 것</h3>
+            <p class="ncard-memory">직업은 저마다 달라도, 다들 같은 광장에서 마주치곤 했어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">Employee Communication Content</span>
+            <h4 class="cd-title">우리다운 것이 흐려지기 전에</h4>
+          </div>
+          <p class="cd-open">문화가 말로만 전해지면 전설처럼 변형됩니다. 전사에 '우리다운 것'이 무엇인지 정의조차 없었습니다.</p>
+        <ul class="cd-acts">
+          <li><strong>브랜드 매뉴얼북 단독 기획·집필 (0→1)</strong> — 브랜드의 가치와 조직 문화, 점포 매뉴얼까지 <strong>298p 한 권</strong>에 담아 약 1년간 주도적으로 만들었습니다.</li>
+          <li><strong>사내 커뮤니케이션 채널 구축</strong> — 웹 기반 사내 소식지를 단독 제작한 뒤 팀에 이관해, 제가 없어도 굴러가는 채널로 남겼습니다.</li>
+          <li><strong>읽기 쉬운 형태로 설계</strong> — 텍스트 위주 공지 대신 클릭해서 넘겨보는 웹 소식지 형식을 택해, 구성원이 부담 없이 훑어볼 수 있게 만들었습니다.</li>
+        </ul>
+        <div class="cd-imgs">
+          <div class="cd-img-box"><img src="images/manualbook_strip.jpg" alt="전사 통합 브랜드 매뉴얼북"></div>
+          <div class="cd-img-box"><img src="images/culture2.jpg" alt="사내 소식지"></div>
+        </div>
+        <p class="cd-cap">단독 기획·집필한 브랜드 매뉴얼북 (좌) · HTML·CSS로 직접 구축한 사내 소식지 (우)</p>
+        <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">298p</div><div class="cn-lbl">브랜드 매뉴얼북<br>단독 기획·집필</div></div>
+            <div><div class="cn-num">0→1</div><div class="cn-lbl">전사 가치·문화<br>최초 문서화</div></div>
+          </div>
+          <p class="cd-rtext">부서 간 소통에서도 <strong>"매뉴얼북 4-5에 따르면"</strong>이라는 화법이 자리 잡았습니다. 문화를 문서로 만드는 일은 박제가 아니라 번역이라고 생각합니다.</p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+    <!-- CASE 04 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-04">
+            <div class="rv-stage"><div class="rv-eq"><span></span><span></span><span></span><span></span><span></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 04</span>
+            <h3 class="ncard-title">계속 머물고 싶어지는<br>분위기라는 것</h3>
+            <p class="ncard-memory">차분한 BGM과 '또독' 하는 효과음 속에 계속 머물고 싶었어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">Welfare Program &amp; Employee Gifting</span>
+            <h4 class="cd-title">사는 게 아니라 설계하는 선물</h4>
+          </div>
+          <p class="cd-open">기존 온보딩엔 '물건'은 있었지만, 그걸 왜 이 타이밍에 전달하는지에 대한 설계는 없었습니다.</p>
+        <ul class="cd-acts">
+          <li><strong>웰컴 기프트세트 자체 기획·구성</strong> — 매장 배치를 앞둔 온보딩 3일차, 업무에 바로 쓰는 앞치마와 자사 판매 상품을 브랜드 에코백에 담아 전달합니다. 첫 근무일의 경험 자체를 설계했습니다.</li>
+          <li><strong>실용성과 브랜드 경험의 균형</strong> — 바로 업무에 쓰는 소모품과 자사 브랜드 굿즈를 함께 담아, 선물이 버려지지 않고 실제로 쓰이도록 구성했습니다.</li>
+        </ul>
+        <div class="cd-imgs single">
+          <div class="cd-img-box"><img src="images/gift.jpg" alt="테라로사 입사 기념 웰컴 기프트세트"></div>
+        </div>
+        <p class="cd-cap">직접 기획한 웰컴 기프트세트 — 브랜드 에코백, 시그니처 드립백, 원두, 빈투바 초콜릿</p>
+        <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">약 200세트</div><div class="cn-lbl">연간 웰컴 기프트세트<br>자체 기획·구성</div></div>
+            <div><div class="cn-num">3일차</div><div class="cn-lbl">온보딩 중 전달 타이밍<br>자체 설계</div></div>
+          </div>
+          <p class="cd-rtext">복지도 결국 브랜드 경험이라고 생각합니다. 첫 출근길에 들고 가는 가방 하나에도 <strong>이 회사가 어떤 곳인지</strong>를 담을 수 있습니다.</p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+    <!-- CASE 05 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-05">
+            <div class="rv-stage"><div class="rv-gauge"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span><span></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 05</span>
+            <h3 class="ncard-title">무기마다 다르게<br>쌓이던 숙련도</h3>
+            <p class="ncard-memory">무기별로 다르게 쌓이던 숙련도, 그게 일랜시아의 '어빌리티'였어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">AX &amp; Generative AI</span>
+            <h4 class="cd-title">온보딩을 하나의 제품으로 만들었어요</h4>
+          </div>
+          <p class="cd-open">떠나기 쉬운 사람들을 붙잡는 건 급여도 복지도 아니었습니다. 데이터가 가리킨 우리만의 강점은 '교육 시스템'이었습니다.</p>
+        <ul class="cd-acts">
+          <li><strong>온보딩 웹앱 직접 개발</strong> — 코딩 경험이 없었지만 AI를 활용해 만들었습니다. 이름을 입력하면 페이지 곳곳에 나타나는 <strong>환영받는 느낌을 설계</strong>하고, 진행률 게이미피케이션을 넣었습니다.</li>
+          <li><strong>결과 자동화</strong> — 수기로 진행하던 필기시험·설문을 연결하고 저장부터 가공까지 자동화했습니다. 익일에야 나오던 결과가 교육 종료 당일에 나옵니다.</li>
+          <li><strong>셀프서브 기술 가이드북 (0→1)</strong> — 제작 과정을 기록해 누구나 AI로 자기 도구를 만들 수 있도록 전사에 배포했습니다.</li>
+          <li><strong>임원진 대상 AI 활용 교육 진행</strong> — 한 사람의 실험이 조직의 표준이 되는 경로를 만들었습니다.</li>
+        </ul>
+        <div class="cd-imgs">
+          <div class="cd-img-box"><img src="images/onboarding.JPEG" alt="직접 개발한 온보딩 웹앱"></div>
+          <div class="cd-img-box"><img src="images/systems2.jpg" alt="AI 활용 셀프서브 가이드북"></div>
+        </div>
+        <p class="cd-cap">직접 개발한 온보딩 웹앱 (좌) · 직접 제작해 배포한 생성형 AI 활용 가이드북 (우)</p>
+        <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">당일</div><div class="cn-lbl">시험·설문 결과 정리<br>익일 → 종료 당일</div></div>
+            <div><div class="cn-num">2배</div><div class="cn-lbl">온보딩 시스템 언급률<br>긍정 응답 중 20% → 40%</div></div>
+          </div>
+          <p class="cd-rtext">가장 뿌듯했던 건 제 결과물이 아니었습니다. 가이드북을 읽은 동료가 엑셀로 공유하던 데이터를 웹 대시보드로 직접 만들어 배포했어요. <strong>제가 직접 하지 않아도 동료들이 알아서 만들어내는 운동장이 생긴 순간,</strong> 도구는 문화가 됩니다.</p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+    <!-- CASE 06 -->
+    <article class="ncard" data-rv tabindex="0">
+      <div class="ncard-media">
+        <div class="ncard-face ncard-face-front">
+          <div class="ncard-fallback rv rv-06">
+            <div class="rv-stage"><div class="rv-shift"><span class="sq"></span><span class="cir"></span><span class="tri"></span></div></div>
+          </div>
+          <div class="ncard-scrim"></div>
+          <div class="ncard-head">
+            <span class="ncard-tag">ELANCIA · 06</span>
+            <h3 class="ncard-title">필요하면<br>다른 사람이 되는 것</h3>
+            <p class="ncard-memory">사냥하다가도 요리사가 되고, 미용사가 되어 머리를 만졌어요.</p>
+          </div>
+        </div>
+        <div class="ncard-face ncard-face-back">
+          <div class="cd-head">
+            <span class="cd-tag">Media Production &amp; Content</span>
+            <h4 class="cd-title">12편의 영상이 기준이 되기까지</h4>
+          </div>
+          <p class="cd-open">손이 자주 가야 하는 직무일수록, 글로는 전달되지 않았습니다.</p>
+        <ul class="cd-acts">
+          <li><strong>미디어 기반 직무 교육 체계 (0→1)</strong> — Premiere Pro를 독학해 직무 교육 영상 12편을 기획·촬영·편집하고 QR로 연결했습니다.</li>
+          <li><strong>장비가 없으면 찾아냈습니다</strong> — 사무실에 방치된 아이맥의 구입 이력을 추적해 사용 허가를 받고, 촬영·편집 환경을 직접 마련했습니다.</li>
+          <li><strong>사내 표준 제작자가 됐습니다</strong> — 이 경험을 인정받아 2026년 전사 시무식 영상 제작을 전담했고, 다른 부서의 영상 제작 의뢰도 받고 있습니다.</li>
+          <li><strong>취미가 자격이 됐습니다</strong> — 주말마다 다니던 요가를 계속 파고들어 요가 강사 자격증을 취득했고, Adobe Photoshop과 PowerPoint 툴을 활용해 요가원 홍보 포스터 제작까지 전담하고 있습니다.</li>
+        </ul>
+        <div class="cd-imgs">
+          <div class="cd-img-box"><video src="images/systems1.mp4" poster="images/systems1.jpg" autoplay muted loop playsinline aria-label="직무 교육 영상 클립"></video></div>
+          <div class="cd-img-box"><img src="images/yoga.png" alt="Photoshop·PowerPoint로 제작한 요가원 홍보 포스터 4종"></div>
+        </div>
+        <p class="cd-cap">Premiere Pro로 제작한 직무 교육 영상 클립 (좌) · Photoshop·PowerPoint로 제작한 요가원 홍보 포스터 4종 (우)</p>
+        <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">12편</div><div class="cn-lbl">직무 교육 영상<br>기획·촬영·편집</div></div>
+            <div><div class="cn-num">0→1</div><div class="cn-lbl">미디어 기반 교육체계<br>최초 구축</div></div>
+            <div><div class="cn-num">시무식</div><div class="cn-lbl">2026년 전사 영상<br>제작 전담</div></div>
+            <div><div class="cn-num">요가 강사</div><div class="cn-lbl">자격증 취득<br>포스터 디자인 전담</div></div>
+          </div>
+          <p class="cd-rtext">카메라도, 요가 매트도 처음엔 낯설었습니다. <strong>필요한 도구와 자격이 있다면, 그때그때 배워서 채우는 쪽을 택했습니다.</strong></p>
+        </div>
+        </div>
+        <div class="ncard-plus">⊕</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- VOICES -->
+<section class="voices" id="voices">
+  <div class="voices-head">
+    <h2 class="voices-title">진단은 숫자로 시작해, <em>구성원의 문장으로 완성됩니다.</em></h2>
+    <p class="voices-note">제가 설계·운영한 온보딩 서베이 응답 中 · 정량 지표와 함께 정성 응답을 수집해 다음 차수 개선에 반영했습니다</p>
+  </div>
+  <div class="voice-list" data-rv>
+    <div class="voice-card">
+      <p class="voice-q">온보딩 프로그램을 통해 테라로사의 브랜드 가치를 더 느낄 수 있었습니다.</p>
+      <p class="voice-src">가치 내재화</p>
+    </div>
+    <div class="voice-card">
+      <p class="voice-q">처음 접하는 회사의 이미지가, 교육과 경험으로 더욱 좋아졌습니다.</p>
+      <p class="voice-src">내부 브랜딩</p>
+    </div>
+    <div class="voice-card">
+      <p class="voice-q">여러 분야를 어떻게 하면 저희가 잘 이해할지 고민하신 흔적이 보여, 일원이 된 게 뿌듯했습니다.</p>
+      <p class="voice-src">교수 설계</p>
+    </div>
+    <div class="voice-card">
+      <p class="voice-q">신입이 빨리 자리 잡으니, 가르치는 사람과 배우는 사람이 아니라 함께 가는 동료가 됐어요.</p>
+      <p class="voice-src">현장 리더 · 팀원 피드백</p>
+    </div>
+  </div>
+</section>
+
+<!-- RETROSPECTIVE -->
+<section class="retro" id="retro">
+  <p class="s-eye">Retrospective</p>
+  <h2 class="s-title">한 번의 뼈아픈 실패가<br>가르쳐 준 것</h2>
+  <div class="retro-grid">
+    <p class="retro-p">처음 순환 온보딩 아키텍처를 배포했을 때, 현장 실행률이 예상과 달리 저조했습니다. 한 달 차 직원들을 인터뷰해 보니 커리큘럼대로 진행되지 않고 있었어요. 처음엔 실망했지만, 현장 출신의 기억을 떠올렸습니다. <strong>현장이 비협조적인 게 아니라, 내가 따르기 어려운 제도를 만든 건 아닐까?</strong></p>
+    <p class="retro-p">리더들을 직접 만나 보니 답이 있었습니다. 도제식 교육에 대한 믿음, 산출물 품질에 대한 불신, 그리고 폰으로 일하는 현장에 PC용 엑셀 커리큘럼을 준 저의 실수. 커리큘럼을 폰에서 바로 볼 수 있게 다시 만들고, <strong>그들이 먼저 코치가 될 수 있도록 지원</strong>하는 것으로 전략을 전면 수정했습니다. <strong>제도를 만든 사람과 쓰는 사람의 거리만큼 제도는 작동하지 않는다</strong>는 걸 배웠습니다.</p>
+  </div>
+  <div class="retro-pull">
+    <p class="rp-text">"이 실패를 빠르게 인정한 것이<br>신규 입사자 소프트랜딩 97%의 가장 큰 밑거름이었습니다."</p>
+    <p class="rp-attr">— Retrospective · Onboarding Architecture v1.0</p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing" id="closing">
+  <p class="s-eye">Closing</p>
+  <h2 class="s-title">판단할 자리가 없다면,<br>함께 만들면 됩니다.</h2>
+  <div class="closing-body" data-rv>
+    <p class="closing-p">커리어 대부분이 F&amp;B 현장에서 나왔다는 걸 압니다. 그래서 부족한 반대증거를 기다리는 대신, 판단을 반복 훈련할 수 있는 도구 <strong>'컬처 시뮬레이터'</strong>를 직접 만들었습니다.</p>
+    <p class="closing-note">React + Claude API로 제작 · 조직문화 시나리오에서 선택을 내리면 Schein · Edmondson · Sull · Kotter의 이론을 근거로 실시간 채점과 리스크, 지표 변화를 돌려줍니다.</p>
+  </div>
+  <p class="closing-sub">땅속의 균근처럼 팀 사이에 영양분이 흐르는 길을 만들면서, 동시에 누가 봐도 잘하는 동료이고 싶습니다. 제가 연결한 사람들이 더 높이 자라고, 그 이유가 저였으면 좋겠습니다.</p>
+  <div class="closing-btns">
+    <a href="mailto:bobsemi@me.com" class="btn-primary">이메일 보내기</a>
+  </div>
+</section>
+
+<footer>
+  <span>박세미 · 복리후생·조직문화 담당자</span>
+  <span>© 2026</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const rvObs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('[data-rv]').forEach(el => rvObs.observe(el));
+
+  // Hero scroll-zoom — image/panel expands as the hero scrolls past
+  const hero = document.getElementById('top');
+  function updateHero() {
+    const rect = hero.getBoundingClientRect();
+    const range = hero.offsetHeight - window.innerHeight * 0.45;
+    const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(range, 1));
+    const p = range > 0 ? scrolled / range : 0;
+    hero.style.setProperty('--p', p.toFixed(3));
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateHero));
+  updateHero();
+
+  // Subnav docked shadow state
+  const subnav = document.getElementById('subnav');
+  function updateSubnav() {
+    const top = subnav.getBoundingClientRect().top;
+    subnav.classList.toggle('docked', top <= 61);
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateSubnav));
+  updateSubnav();
+
+  // Active subnav link on scroll
+  const sections = ['about','cases','voices','retro','closing'].map(id => document.getElementById(id));
+  const navLinks = Array.from(subnav.querySelectorAll('a'));
+  function updateActive() {
+    let current = sections[0];
+    for (const s of sections) { if (s.getBoundingClientRect().top - 140 <= 0) current = s; }
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateActive));
+  updateActive();
+
+  // Cards — click expands the card in place to a wide (640px) column that
+  // spans the grid row, reusing the exact layout/image sizes the popup used.
+  // Other cards keep their spot; the detail content scrolls internally.
+  document.querySelectorAll('.ncard').forEach(card => {
+    const plus = card.querySelector('.ncard-plus');
+
+    function openCard() {
+      document.querySelectorAll('.ncard.is-open').forEach(c => {
+        if (c !== card) { c.classList.remove('is-open'); c.querySelector('.ncard-plus').textContent = '⊕'; }
+      });
+      card.classList.add('is-open');
+      plus.textContent = '×';
+    }
+    function closeCard() {
+      card.classList.remove('is-open');
+      plus.textContent = '⊕';
+      const back = card.querySelector('.ncard-face-back');
+      if (back) back.scrollTop = 0;
+    }
+
+    card.addEventListener('click', e => {
+      if (card.classList.contains('is-open')) {
+        // While open, only the ⊕/× button closes it — this lets people
+        // freely scroll or select text inside the back face.
+        if (e.target.closest('.ncard-plus')) closeCard();
+      } else {
+        openCard();
+      }
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.contains('is-open') ? closeCard() : openCard();
+      }
+      if (e.key === 'Escape' && card.classList.contains('is-open')) closeCard();
+    });
+  });
+</script>
+</body>
+</html>
