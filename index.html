@@ -425,6 +425,13 @@ strong { font-weight: 700; text-decoration: underline; text-decoration-thickness
 .closing-body { margin: 2.2rem auto 0; max-width: 72ch; }
 .closing-p { font-size: 0.95rem; color: #333; line-height: 1.88; word-break: keep-all; margin-bottom: 1rem; }
 .closing-note { font-size: 0.76rem; color: var(--muted); line-height: 1.7; word-break: keep-all; padding-top: 1rem; border-top: 1px solid var(--line); margin-bottom: 2.6rem; }
+.closing-demo { margin: 0.4rem auto 2.4rem; max-width: 760px; text-align: left; }
+.closing-demo-frame {
+  border-radius: 14px; overflow: hidden; background: var(--nav);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.28); border: 1px solid rgba(0,0,0,0.08);
+}
+.closing-demo-frame video { width: 100%; height: auto; display: block; }
+.closing-demo-cap { margin-top: 0.8rem; font-size: 0.74rem; color: var(--muted); text-align: center; }
 .closing-sub { margin: 0 auto; max-width: 68ch; font-size: 0.9rem; color: var(--muted); line-height: 1.85; }
 .closing-btns { margin-top: 2.4rem; }
 .btn-primary { display: inline-block; padding: 0.9rem 2.2rem; font-size: 0.82rem; letter-spacing: 0.04em; text-decoration: none;
@@ -600,8 +607,12 @@ footer { padding: 2rem 7vw; border-top: 1px solid var(--line); display: flex; ju
           <li><strong>제가 먼저 '세미님'이 됐습니다</strong> — 가장 높여 불릴 자리의 사람이 먼저 내려오면 나머지가 따라올 수 있다고 봤어요. 교육 자리에서 <strong>"세미님이라고 불러 주세요"</strong>라고 소개했습니다.</li>
           <li><strong>새로 들어오는 물부터 바꿨습니다</strong> — 매달 합류하는 신규 입사자가 첫날부터 '님'을 쓰게 했어요. 온보딩이 그 입구였고, 저는 그 입구를 쥐고 있었습니다.</li>
           <li><strong>리더들 사이에는 '분위기'를 만들었습니다</strong> — <strong>규칙으로 강제하는 대신, 이미 그렇게 되어 가는 것처럼 보이게</strong> 만든 것입니다.</li>
+          <li><strong>분기별 리더 시상식을 직접 기획합니다</strong> — 리더·차기리더가 모이는 분기 행사에서 여러 항목의 사내 시상을 만들어 상품과 함께 전달합니다.</li>
         </ul>
         <div class="cd-result">
+          <div class="cd-nums">
+            <div><div class="cn-num">분기별</div><div class="cn-lbl">리더·차기리더 시상식<br>기획·운영</div></div>
+          </div>
           <p class="cd-rtext">신입들이 훨씬 쉽게 동료에게 다가가 질문하고 도움을 구합니다. <strong>제도는 공지로 시작되지만, 문화는 누군가 먼저 그렇게 사는 걸 보여줄 때 시작됩니다.</strong></p>
         </div>
         </div>
@@ -634,6 +645,11 @@ footer { padding: 2rem 7vw; border-top: 1px solid var(--line); display: flex; ju
           <li><strong>해외 전문가 초청 세미나 기획</strong> — 바리스타 챔피언십 코치를 초청한 임직원 교육에서 조교로 참여, 외부 전문가의 노하우가 현장에 그대로 전달되도록 통역·진행을 맡았습니다.</li>
           <li><strong>진행 공백 없는 통역 운영</strong> — 통역이 필요한 국제 행사 특성상 세션 흐름과 통역 타이밍까지 직접 조율해, 언어 장벽 없이 매끄럽게 진행되도록 했습니다.</li>
         </ul>
+        <div class="cd-imgs">
+          <div class="cd-img-box"><img src="images/ace1.jpg" alt="ACE 국제 센서리 교육 현장"></div>
+          <div class="cd-img-box"><img src="images/ace2.jpg" alt="ACE 국제 센서리 교육 현장"></div>
+        </div>
+        <p class="cd-cap">ACE 국제 센서리 교육 현장</p>
         <div class="cd-result">
           <div class="cd-nums">
             <div><div class="cn-num">2회</div><div class="cn-lbl">ACE 국제 센서리 교육<br>조교·통역 참여</div></div>
@@ -711,18 +727,22 @@ footer { padding: 2rem 7vw; border-top: 1px solid var(--line); display: flex; ju
           <p class="cd-open">기존 온보딩엔 '물건'은 있었지만, 그걸 왜 이 타이밍에 전달하는지에 대한 설계는 없었습니다.</p>
         <ul class="cd-acts">
           <li><strong>웰컴 기프트세트 자체 기획·구성</strong> — 매장 배치를 앞둔 온보딩 3일차, 업무에 바로 쓰는 앞치마와 자사 판매 상품을 브랜드 에코백에 담아 전달합니다. 첫 근무일의 경험 자체를 설계했습니다.</li>
+          <li><strong>매주 금요일, 전사 커핑을 전담합니다</strong> — 현재 판매 중인 전 커피 상품을 본사 직원이 함께 맛보고 피드백하는 품질 평가 자리를 매주 준비·진행합니다. 20~30명이 참석하고, 임원진은 전원 참석합니다.</li>
+          <li><strong>복지 인프라도 꾸준히 운영합니다</strong> — 사내 카페 원두를 직접 발주·관리하고, 외부 업체를 통해 매달 현장 전체에 간식박스를 배포합니다.</li>
           <li><strong>실용성과 브랜드 경험의 균형</strong> — 바로 업무에 쓰는 소모품과 자사 브랜드 굿즈를 함께 담아, 선물이 버려지지 않고 실제로 쓰이도록 구성했습니다.</li>
         </ul>
-        <div class="cd-imgs single">
+        <div class="cd-imgs">
           <div class="cd-img-box"><img src="images/gift.jpg" alt="테라로사 입사 기념 웰컴 기프트세트"></div>
+          <div class="cd-img-box"><img src="images/cupping.jpg" alt="매주 금요일 진행하는 전사 커핑 현장"></div>
         </div>
-        <p class="cd-cap">직접 기획한 웰컴 기프트세트 — 브랜드 에코백, 시그니처 드립백, 원두, 빈투바 초콜릿</p>
+        <p class="cd-cap">웰컴 기프트세트 (좌) · 매주 금요일 전사 커핑 현장 (우)</p>
         <div class="cd-result">
           <div class="cd-nums">
             <div><div class="cn-num">약 200세트</div><div class="cn-lbl">연간 웰컴 기프트세트<br>자체 기획·구성</div></div>
+            <div><div class="cn-num">매주 금요일</div><div class="cn-lbl">전사 커핑 진행<br>임원진 전원 참석</div></div>
             <div><div class="cn-num">3일차</div><div class="cn-lbl">온보딩 중 전달 타이밍<br>자체 설계</div></div>
           </div>
-          <p class="cd-rtext">복지도 결국 브랜드 경험이라고 생각합니다. 첫 출근길에 들고 가는 가방 하나에도 <strong>이 회사가 어떤 곳인지</strong>를 담을 수 있습니다.</p>
+          <p class="cd-rtext">복지도 결국 브랜드 경험이라고 생각합니다. 선물 한 번, 행사 한 번이 아니라 <strong>매주·매달 꾸준히 돌아가는 것</strong>까지가 제 몫이라고 봅니다.</p>
         </div>
         </div>
         <div class="ncard-plus">⊕</div>
@@ -866,6 +886,12 @@ footer { padding: 2rem 7vw; border-top: 1px solid var(--line); display: flex; ju
   <h2 class="s-title">판단할 자리가 없다면,<br>함께 만들면 됩니다.</h2>
   <div class="closing-body" data-rv>
     <p class="closing-p">커리어 대부분이 F&amp;B 현장에서 나왔다는 걸 압니다. 그래서 부족한 반대증거를 기다리는 대신, 판단을 반복 훈련할 수 있는 도구 <strong>'컬처 시뮬레이터'</strong>를 직접 만들었습니다.</p>
+    <div class="closing-demo">
+      <div class="closing-demo-frame">
+        <video src="images/simulator-demo.mp4" poster="images/simulator-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+      </div>
+      <p class="closing-demo-cap">실제 컬처 시뮬레이터 조작 화면 — 시나리오별 선택에 따른 실시간 채점 · 지표 변화</p>
+    </div>
     <p class="closing-note">React + Claude API로 제작 · 조직문화 시나리오에서 선택을 내리면 Schein · Edmondson · Sull · Kotter의 이론을 근거로 실시간 채점과 리스크, 지표 변화를 돌려줍니다.</p>
   </div>
   <p class="closing-sub">땅속의 균근처럼 팀 사이에 영양분이 흐르는 길을 만들면서, 동시에 누가 봐도 잘하는 동료이고 싶습니다. 제가 연결한 사람들이 더 높이 자라고, 그 이유가 저였으면 좋겠습니다.</p>
